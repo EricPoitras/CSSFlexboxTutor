@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+			crossorigin="anonymous"
+		/>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" />
+
+		<style>
+			li {
+				list-style: none;
+				padding: 5px;
+			}
+			li span,
+			li a {
+				margin: 2px;
+				font-size: 1.25rem;
+			}
+			ul {
+				margin-left: 25px;
+				border-left: 1px solid lightgray;
+			}
+			.tag {
+				color: purple;
+			}
+			.style {
+				color: blue;
+			}
+		</style>
+
+		<title>Advanced HTML</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-auto">
+					<ul class="list-group">
+						<li>
+							<a class="icon_down"><i class="fas fa-chevron-down"></i></a>
+							<a class="d-none icon_right"><i class="fas fa-chevron-right"></i></a>
+							<span class="tag opening">&lt;head&gt;</span>
+							<span class="style">class='foo'</span>
+							<span>...</span>
+							<ul class="list-group d-none">
+								<li>
+									<a class="d-none icon_down"><i class="fas fa-chevron-down"></i></a>
+									<a class="icon_right"><i class="fas fa-chevron-right"></i></a>
+									<span>&lt;div&gt;</span>
+									<span>...</span>
+									<span>&lt;/div&gt;</span>
+								</li>
+								<li>
+									<span class="tag opening">&lt;p&gt;</span>
+									<span class="content">Lorem Ipsum</span>
+									<span class="tag closing">&lt;/p&gt;</span>
+								</li>
+							</ul>
+							<span class="tag closing">&lt;/head&gt;</span>
+						</li>
+					</ul>
+				</div>
+				<div class="col-4">
+					<form>
+						<div id="cont_editor" class="form-group">
+							<label for="editor">Editor</label>
+							<input type="text" class="form-control" id="editor" placeholder="<p>" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+			crossorigin="anonymous"
+		></script>
+		<script>
+			var selected_element;
+			const editor = document.getElementById("editor");
+
+			const icon_down = document.querySelectorAll(".icon_down");
+			console.log(icon_down);
+			for (const icon of icon_down) {
+				icon.addEventListener("click", function(e) {
+					console.log(e.target.parentElement);
+					console.log(e.target.parentElement.nextElementSibling.nextElementSibling.nextElementSibling);
+					try {
+						e.target.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+							"d-none"
+						);
+						e.target.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.classList.add("d-none");
+						e.target.parentElement.nextElementSibling.classList.remove("d-none");
+						e.target.parentElement.classList.add("d-none");
+					} catch {}
+				});
+			}
+
+			const icon_right = document.querySelectorAll(".icon_right");
+			console.log(icon_right);
+			for (const icon of icon_right) {
+				icon.addEventListener("click", function(e) {
+					console.log(e.target.parentElement);
+					try {
+						e.target.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.classList.add("d-none");
+						e.target.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove("d-none");
+						e.target.parentElement.previousElementSibling.classList.remove("d-none");
+						e.target.parentElement.classList.add("d-none");
+					} catch {}
+				});
+			}
+
+			const tag = document.querySelectorAll(".tag");
+			console.log(tag);
+			for (const element of tag) {
+				element.addEventListener("click", function(e) {
+					console.log(e.target);
+				});
+			}
+
+			const opening = document.querySelectorAll(".opening");
+			console.log(opening);
+			for (const tag_opening of opening) {
+				tag_opening.addEventListener("click", function(e) {
+					selected_element = e.target;
+					console.log(selected_element);
+					editor.value = e.target.textContent;
+					console.log(e);
+					document.getElementById("cont_editor").style.marginTop = e.pageY - 50 + "px";
+				});
+			}
+
+			const closing = document.querySelectorAll(".closing");
+			console.log(closing);
+			for (const tag_closing of closing) {
+				tag_closing.addEventListener("click", function(e) {
+					selected_element = e.target;
+					console.log(selected_element);
+					editor.value = e.target.textContent;
+					console.log(e);
+					document.getElementById("cont_editor").style.marginTop = e.pageY - 50 + "px";
+				});
+			}
+
+			const style = document.querySelectorAll(".style");
+			console.log(style);
+			for (const selector of style) {
+				selector.addEventListener("click", function(e) {
+					selected_element = e.target;
+					console.log(selected_element);
+					editor.value = e.target.textContent;
+					console.log(e);
+					document.getElementById("cont_editor").style.marginTop = e.pageY - 50 + "px";
+				});
+			}
+
+			const content = document.querySelectorAll(".content");
+			console.log(content);
+			for (const text of content) {
+				text.addEventListener("click", function(e) {
+					selected_element = e.target;
+					console.log(selected_element);
+					editor.value = e.target.textContent;
+					console.log(e);
+					document.getElementById("cont_editor").style.marginTop = e.pageY - 50 + "px";
+				});
+			}
+
+			editor.addEventListener("keyup", function() {
+				selected_element.textContent = editor.value;
+			});
+		</script>
+	</body>
+</html>
